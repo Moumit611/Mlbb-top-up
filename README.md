@@ -42,3 +42,28 @@ Mlbb low price topup
     <script src="script.js"></script>
 </body>
 </html>
+https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${upiID}&pn=MLBB+TopUp&mc=0000&tid=123456&tr=MLBBTopUp&tn=Top-Up&am=${amount}&cu=INR
+document.getElementById("topupForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let mobile = document.getElementById("mobile").value;
+    let mlbbID = document.getElementById("mlbbID").value;
+    let zoneID = document.getElementById("zoneID").value;
+    let amount = document.getElementById("topupOption").value;
+
+    let receiptText = `
+        Mobile: ${mobile} <br>
+        MLBB ID: ${mlbbID} <br>
+        Zone ID: ${zoneID} <br>
+        Amount: ₹${amount}
+    `;
+
+    document.getElementById("receiptDetails").innerHTML = receiptText;
+
+    // Generate QR Code (Google Pay UPI Link)
+    let upiID = "yourupi@upi"; // Replace with your actual UPI ID
+    let qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${upiID}&pn=MLBB+TopUp&mc=0000&tid=123456&tr=MLBBTopUp&tn=Top-Up&am=${amount}&cu=INR`;
+
+    document.getElementById("qrCode").src = qrCodeURL;
+    document.getElementById("receipt").classList.remove("hidden");
+});
